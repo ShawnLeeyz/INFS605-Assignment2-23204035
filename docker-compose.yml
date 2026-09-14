@@ -25,6 +25,33 @@ services:
       - "5001:5001"
     networks:
       - microservices-net
+  
+  course-db:
+    image: postgres:15
+    container_name: course-db
+    environment:
+      POSTGRES_USER: courseuser
+      POSTGRES_PASSWORD: coursepass
+      POSTGRES_DB: coursedb
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./course-catalogue/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - microservices-net 
+    
+  course-catalogue:
+    build: ./course-catalogue
+    container_name: course-catalogue
+    environment:
+      DATABASE_URL: postgresql://courseuser:coursepass@course-db:5432/coursedb
+      FLASK_ENV: development
+    depends_on:
+      - course-db
+    ports:
+      - "5002:5002"
+    networks:
+      - microservices-net
 
   admin-frontend:
     build: ./frontend
