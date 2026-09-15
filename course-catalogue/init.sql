@@ -4,6 +4,13 @@
  * For the course-catalogue service
  */
 
+ /* id : id of the course
+  * course_code : Unique code for the course (e.g., CS101)
+  * course_name : Name of the course
+  * description : Description of the course content
+  * credits : Number of credits for the course
+*/
+
 CREATE TABLE IF NOT EXISTS courses (
     id SERIAL PRIMARY KEY,
     course_code VARCHAR(10) NOT NULL UNIQUE,

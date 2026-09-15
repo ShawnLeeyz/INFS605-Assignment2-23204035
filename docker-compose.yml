@@ -53,6 +53,35 @@ services:
     networks:
       - microservices-net
 
+  feedback-db:
+    image: postgres:15
+    container_name: feedback-db
+    environment:
+      POSTGRES_USER: feedbackuser
+      POSTGRES_PASSWORD: feedbackpass
+      POSTGRES_DB: feedbackdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./course-feedback/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - microservices-net
+
+  course-feedback:
+    build: ./course-feedback
+    container_name: course-feedback
+    environment:
+      DATABASE_URL: postgresql://feedbackuser:feedbackpass@feedback-db:5432/feedbackdb
+      FLASK_ENV: development
+    depends_on:
+      - feedback-db
+      - student-profile
+      - course-catalogue
+    ports:
+      - "5003:5003"
+    networks:
+      - microservices-net
+
   admin-frontend:
     build: ./frontend
     container_name: frontend

@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Dockerfile for the Course Catalogue microservice
+# Dockerfile for the course feedback microservice
 # Purpose: Build a small Python image that waits for the Postgres DB
 #          then runs the Flask app (app.py).
 #
@@ -50,6 +50,6 @@ RUN chmod +x wait-for-it.sh
 
 # Command to run when the container starts.
 # - We use the exec-form (JSON array) so the process receives signals directly.
-# - The wait-for-it script blocks until course-db:5432 is reachable,
+# - The wait-for-it script blocks until feedback-db:5432 is reachable,
 #   then runs the Python app (this prevents the app starting before DB is ready).
-CMD ["./wait-for-it.sh", "course-db", "5432", "python", "app.py"]
+CMD ["./wait-for-it.sh", "feedback-db", "5432", "python", "app.py"]

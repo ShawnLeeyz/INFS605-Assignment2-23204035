@@ -1,3 +1,8 @@
+"""
+Handles submitting and retrieving student feedback about courses.
+Has its own database (feedback-db). 
+"""
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import psycopg2
@@ -12,6 +17,7 @@ DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgres://courseuser:coursepass@course-db:5432/coursedb"
 )
+
 # docker compose up -d --build course-catalogue
 # -----------------------------
 # Wait-and-retry for database
@@ -95,7 +101,9 @@ def get_course(course_id):
 # curl -X POST http://localhost:5002/courses -H "Content-Type: application/json" -d '{"course_code": "CS104", "course_name": "Introduction to Computer Science", "description": "Learn the basics of computer science.", "credits": 3}'
 @app.route("/courses", methods=["POST"])
 def create_course():
-    data = request.get_json()
+
+    #Getting the data from the request
+    data = request.get_json() or {}
     course_code = data.get("course_code")
     course_name = data.get("course_name")
     description = data.get("description")
