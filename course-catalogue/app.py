@@ -18,7 +18,6 @@ DATABASE_URL = os.getenv(
     "postgres://courseuser:coursepass@course-db:5432/coursedb"
 )
 
-# docker compose up -d --build course-catalogue
 # -----------------------------
 # Wait-and-retry for database
 # -----------------------------

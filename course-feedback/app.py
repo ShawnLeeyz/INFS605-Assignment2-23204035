@@ -25,6 +25,9 @@ DATABASE_URL = os.getenv(
 STUDENT_SERVICE_URL = os.getenv("STUDENT_SERVICE_URL", "http://student-profile:5001")
 COURSE_SERVICE_URL = os.getenv("COURSE_SERVICE_URL", "http://course-catalogue:5002")
 
+# Address of the notification service to send notifications when feedback is submitted
+NOTIFICATION_SERVICE_URL = os.getenv("NOTIFICATION_SERVICE_URL", "http://notification:5004")
+
 # -----------------------------
 # Wait-and-retry for database
 # -----------------------------
@@ -102,7 +105,7 @@ def get_feedback():
     return jsonify(feedback), 200
 
 # -----------------------------
-# POST /feeback - Submit new feedback
+# POST /feedback - Submit new feedback
 # -----------------------------
 @app.route("/feedback", methods=["POST"])
 def create_feedback():
@@ -116,7 +119,7 @@ def create_feedback():
 
     # Check if all the fields have been provided
     if not all([student_id, course_id, category, comment]):
-        return jsonify({"error": "Missing required fields"}), 404
+        return jsonify({"error": "Missing required fields"}), 400
 
     # Check if the student actually exists
     if not student_exist(student_id):
@@ -124,7 +127,7 @@ def create_feedback():
 
     # CHeck if the course actually exists
     if not course_exist(course_id):
-        return jsonify({"error": "Course does not exist"}), 400
+        return jsonify({"error": "Course does not exist"}), 404
 
     conn = get_connection()
     cur  = conn.cursor()
@@ -134,6 +137,15 @@ def create_feedback():
     conn.commit()
     cur.close()
     conn.close()
+
+    # This try-except block is use to notify the student that the feedback has been submitted
+    try:
+        requests.post(f"{NOTIFICATION_SERVICE_URL}/notification", json={
+            "student_id": student_id,
+            "message": f"Feedback successfully submited"
+        })
+    except requests.exceptions.RequestException:
+        pass
 
     return jsonify({"message": "Feedback succefully created", "feedback_id": feedback_id}), 201
 
