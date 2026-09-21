@@ -1,6 +1,6 @@
 """
-Handles submitting and retrieving student feedback about courses.
-Has its own database (feedback-db). 
+This service contains the CRUD operations for a "course", 
+it involves updating, deleting, creating and viewing the course avaliable.
 """
 
 from flask import Flask, jsonify, request

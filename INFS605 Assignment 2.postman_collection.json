@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "5750a728-d033-4ab9-96fe-1ff184285bd1",
+    "_postman_id": "6c00fadd-e096-4389-86b9-af7cb33c3b9f",
     "name": "INFS605 Assignment 2",
     "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -133,22 +133,53 @@
       "item": [
         {
           "name": "GET all courses",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "method": "GET",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"CS101\": \"Testing1\", \"course_name\": \"test1@gmail.com\", \"description\": \"\", \"credits\": \"\"}"
+            },
             "url": {
-              "raw": ""
+              "raw": "http://localhost:5002/courses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5002",
+              "path": [
+                "courses"
+              ]
             }
           },
           "response": []
         },
         {
           "name": "GET one course",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "method": "GET",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"CS101\": \"Testing1\", \"course_name\": \"test1@gmail.com\", \"description\": \"\", \"credits\": \"\"}"
+            },
             "url": {
-              "raw": ""
+              "raw": "http://localhost:5002/courses/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5002",
+              "path": [
+                "courses",
+                "1"
+              ]
             }
           },
           "response": []
@@ -160,7 +191,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\"CS101\": \"Testing1\", \"course_name\": \"test1@gmail.com\", \"description\": \"\", \"credits\": \"\"}",
+              "raw": "{\"course_code\": \"CS999\", \"course_name\": \"Test Course\", \"description\": \"A test course.\", \"credits\": 3}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -188,7 +219,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\"CS101\": \"Testing1\", \"course_name\": \"test1@gmail.com\", \"description\": \"\", \"credits\": \"\"}",
+              "raw": "{\"course_code\": \"CS998\", \"course_name\": \"Invalid Course\", \"description\": \"Should fail.\", \"credits\": -5}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -212,10 +243,28 @@
         {
           "name": "PUT update course",
           "request": {
-            "method": "GET",
+            "method": "PUT",
             "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"credits\": 5}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": ""
+              "raw": "http://localhost:5002/courses/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5002",
+              "path": [
+                "courses",
+                "1"
+              ]
             }
           },
           "response": []
@@ -223,10 +272,19 @@
         {
           "name": "DELETE remove course",
           "request": {
-            "method": "GET",
+            "method": "DELETE",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://localhost:5002/courses/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5002",
+              "path": [
+                "courses",
+                "1"
+              ]
             }
           },
           "response": []
@@ -242,7 +300,15 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": ""
+              "raw": "http://localhost:5003/feedback",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5003",
+              "path": [
+                "feedback"
+              ]
             }
           },
           "response": []
@@ -254,7 +320,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\"student_id\": \"2\", \"course_id\": \"1\", \"comment\": \"My favourite course!\", \"category\": \"teaching\"}",
+              "raw": "{\"student_id\": \"2\", \"course_id\": \"2\", \"comment\": \"My favourite course!\", \"category\": \"teaching\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -283,6 +349,34 @@
             "body": {
               "mode": "raw",
               "raw": "{\"student_id\": \"2\", \"course_id\": \"9\", \"comment\": \"My favourite course!\", \"category\": \"teaching\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5003/feedback",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5003",
+              "path": [
+                "feedback"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST invalid student create feedback",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"student_id\": \"99\", \"course_id\": \"2\", \"comment\": \"My favourite course!\", \"category\": \"teaching\"}",
               "options": {
                 "raw": {
                   "language": "json"
