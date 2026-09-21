@@ -13,7 +13,7 @@ How it fits into a microservice architecture
   running in a different container (service name: student-db).
 - A separate frontend microservice (React) communicates with this API over HTTP.
 - Containers are composed with docker-compose so services can reach each other
-  by service name (e.g. student-db).
+  by service name (e.g. student-db).    
 
 Important notes for students
 ----------------------------
