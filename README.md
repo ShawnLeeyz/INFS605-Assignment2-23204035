@@ -74,6 +74,22 @@ This project is build with (Flask, PostgreSQL, Docker Compose).
                                                                          └─────────────────────┘        
 ```
 
+## Directory Structure
+```text
+23204035-assignment2/
+- README.md
+- docker-compose.yml
+- .env.example
+- INFS605 Assignment 2.postman_collection.json
+- student-profile/
+- course-catalogue/
+- course-feedback/
+- notification/
+- frontend/
+- postgres/
+- screenshots/
+```
+
 ## Services Explanation
 | Service | Port | Database | Responsibility |
 |---|---|---|---|
@@ -99,7 +115,7 @@ This project is build with (Flask, PostgreSQL, Docker Compose).
    
    Each should have a health check to show the service is working.
 10. Since this project does not have an frontend except the given student profile frontend, postman is used to test the endpoints. 
-    Import `postman_collection.json` (included in this repo) into Postman (desktop app - do not use the web app as localhost could not be reached). This is to test all the endpoints across all service
+    Import `INFS605 Assignment 2.postman_collection.json` (included in this repo) into Postman (desktop app - do not use the web app as localhost could not be reached). This is to test all the endpoints across all service
 11. Once your done type : " docker compose down " to shut down the container
 
 ## Endpoints
@@ -200,6 +216,6 @@ As described above, the communication method used is an HTTP request between ser
 
 My design implementation does take into account what happens when other services are unavailable. In my course feedback service, the methods student_exist as well as course_exist function attempts to call the respective services internally and return true or false. If the service cannot be reached, the exception is caught and false is returned. The user would always receive the appropriate message and status code on whether the request is successful. The limitation of my design was that, for the check of the student and course, it returns status code 404 but doesn't indicate whether the service is genuinely down or the student does not exist in the database. 
 
-Additionally if the service is slow, the request sent to the services waits indefiently since there no timeout where the request would cancel. The try and except would not catch this as this is a hand rather than an exception. 
+Additionally if the service is slow, the request sent to the services waits indefinitely since there no timeout where the request would cancel. The try and except would not catch this as this is a hang rather than an exception. 
 
 I also considered duplicate request, in my database for the feedback service, I did not set a unique constraint there since a student is allowed to submit multiple feedback to courses as well as multiple feedback towards the same course. However, for the course catalogue database, there shouldn't be rows with the same course code; thus, the unique constraints are set for the course catalogue database. 
